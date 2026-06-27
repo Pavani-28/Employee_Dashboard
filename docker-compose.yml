@@ -1,0 +1,29 @@
+
+
+services:
+  db:
+    image: postgres:16
+
+    environment:
+      POSTGRES_USER: amigoscode
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: amigos
+      PGDATA: /data/amigos
+
+    volumes:
+      - db:/data/postgres
+
+    ports:
+      - "5332:5432"
+
+    networks:
+      - db
+
+    restart: unless-stopped
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:
