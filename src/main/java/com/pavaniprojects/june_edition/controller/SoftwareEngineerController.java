@@ -1,7 +1,7 @@
 package com.pavaniprojects.june_edition.controller;
 
 import com.pavaniprojects.june_edition.SoftwareEngineer;
-import com.pavaniprojects.june_edition.SoftwareEngineerService;
+import com.pavaniprojects.june_edition.service.SoftwareEngineerService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

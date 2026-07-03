@@ -1,5 +1,7 @@
-package com.pavaniprojects.june_edition;
+package com.pavaniprojects.june_edition.service;
 
+import com.pavaniprojects.june_edition.SoftwareEngineer;
+import com.pavaniprojects.june_edition.SoftwareEngineerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

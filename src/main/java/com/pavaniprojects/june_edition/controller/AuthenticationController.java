@@ -6,7 +6,7 @@ package com.pavaniprojects.june_edition.controller;
 
 
 import com.pavaniprojects.june_edition.dto.AuthenticationRequest;
-import com.pavaniprojects.june_edition.security.AuthenticationService;
+import com.pavaniprojects.june_edition.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,11 +25,10 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthenticationRequest request) {
 
-        authenticationService.authenticate(
+        String token=authenticationService.authenticate(
                 request.getUsername(),
                 request.getPassword()
         );
-
-        return ResponseEntity.ok("Login Successful");
+        return ResponseEntity.ok(token);
     }
 }

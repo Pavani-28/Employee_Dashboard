@@ -1,11 +1,9 @@
-package com.pavaniprojects.june_edition.security;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+package com.pavaniprojects.june_edition.service;
 import org.springframework.security.core.Authentication;
 //import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 //who calls it-AuthController
@@ -24,17 +22,20 @@ AuthenticationManager Object
 @Service
 public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+
     //this is called constructor injection, who calls this(not us, springboot)
     //spring sees AuthenticationManager authenticationManager, and thinks do we have one
     // in security config we wrote @bean authmanager..so will be available in spring container->calls constructor
-    public AuthenticationService(AuthenticationManager authenticationManager){
-
-        this.authenticationManager=authenticationManager; //its saved instance variable
-
+    public AuthenticationService(
+            AuthenticationManager authenticationManager,
+            JwtService jwtService
+    ) {
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
-
-    public void authenticate(String username, String password) {
+    public String authenticate(String username, String password) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(username,password);
         //authenticate() method is called vis authmanager ,, it accepts onlt Authentication objs, not strings
         Authentication result = authenticationManager.authenticate(authentication);//execution goes to securityconfig(spring security)
@@ -42,6 +43,10 @@ public class AuthenticationService {
         //spring injects implementation called ProviderManager
         //though we write authenticationManager.authenticate(authentication) , executed is ProviderManager.authenticate(authentication);
         //execution jumps to loadUserByusername(String UN);
-        System.out.println(result);
+        //System.out.println(result);
+        UserDetails userDetails = (UserDetails) result.getPrincipal();
+
+        String token=jwtService.generateToken(userDetails);
+        return token;
     }
 }

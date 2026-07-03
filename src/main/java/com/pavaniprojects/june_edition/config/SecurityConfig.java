@@ -80,7 +80,6 @@ public class SecurityConfig {
     }
 
 
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService customUserDetailsService) {
 
